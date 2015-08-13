@@ -127,9 +127,8 @@ public class MainActivity extends ActionBarActivity {
         final ProgressDialog pd = new ProgressDialog(this);
         pd.setMessage("Loading .. ");
         pd.show();
-
-        //StringRequest
-        StringRequest st = new StringRequest(Request.Method.GET, "http://gufranscifi.appspot.com/GetAllScienceFactJSONs", new Response.Listener<String>() {
+        //StringRequest----->>
+        StringRequest st = new StringRequest(Request.Method.GET, "http://gufranscifi.appspot.com/GetAllScienceFactJSON", new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 System.out.println("Success Response " + response);
@@ -138,21 +137,23 @@ public class MainActivity extends ActionBarActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-
                 pd.hide();
-
                 System.out.println("Volley Error------>> ");
                 System.out.println("Message " + error.getMessage());
                 System.out.println("Network Time ms " + error.getNetworkTimeMs());
-                System.out.println("    Network Response---- " + error.networkResponse.statusCode);
-                System.out.println("        Status Code : " + error.networkResponse.statusCode);
-                System.out.println("        NetworkTime ms : " + error.networkResponse.networkTimeMs);
-                System.out.println("        Not Modified : " + error.networkResponse.notModified);
-                System.out.println("        Data : " + error.networkResponse.data.toString());
-                System.out.println("        Headers : " + error.networkResponse.headers.toString());
+                if (error.networkResponse != null) {
+                    System.out.println("    Network Response---- " + error.networkResponse.statusCode);
+                    System.out.println("        Status Code : " + error.networkResponse.statusCode);
+                    System.out.println("        NetworkTime ms : " + error.networkResponse.networkTimeMs);
+                    System.out.println("        Not Modified : " + error.networkResponse.notModified);
+                    System.out.println("        Data : " + error.networkResponse.data.toString());
+                    System.out.println("        Headers : " + error.networkResponse.headers.toString());
+                }
 
             }
         });
+
+
 
         rq.add(st);
     }
@@ -175,7 +176,7 @@ public class MainActivity extends ActionBarActivity {
             public void onErrorResponse(VolleyError error) {
 
             }
-        }){
+        }) {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 return super.getParams();
